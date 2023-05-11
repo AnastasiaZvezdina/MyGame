@@ -28,7 +28,6 @@ public class GameView extends View {
     Paint text_paint = new Paint();
     Paint health_paint = new Paint();
     Paint blocks_paint = new Paint();
-    float TEXT_SIZE = 100;
     float board_x, board_y;
     float old_x, old_board_x;
     int points = 0;
@@ -37,7 +36,7 @@ public class GameView extends View {
     int dWidth, dHeight;
     int ballWidth, ballHeight;
     Random random;
-    Blocks[] blocks = new Blocks[30];
+    Blocks[] blocks = new Blocks[36];
     int kolvo_of_blocks = 0;
     int brocken_blocks = 0;
     boolean gameOver = false;
@@ -56,7 +55,7 @@ public class GameView extends View {
         };
 
         text_paint.setColor(Color.BLUE);
-        text_paint.setTextSize(TEXT_SIZE);
+        text_paint.setTextSize(100);
         text_paint.setTextAlign(Paint.Align.LEFT);
 
         health_paint.setColor(Color.GREEN);
@@ -131,7 +130,7 @@ public class GameView extends View {
                             blocks[i].row * blocks[i].height + blocks[i].height - 1, blocks_paint);
                 }
             }
-            canvas.drawText("" + points, 20, TEXT_SIZE, text_paint);
+            canvas.drawText("" + points, 20, 120, text_paint);
             if (life == 2) {
                 health_paint.setColor(Color.YELLOW);
             } else if (life == 1) {

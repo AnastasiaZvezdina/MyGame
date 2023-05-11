@@ -9,8 +9,8 @@
     tools:context=".MainActivity">
 
     <ImageButton
-        android:layout_width="306dp"
-        android:layout_height="339dp"
+        android:layout_width="206dp"
+        android:layout_height="200dp"
         android:layout_marginRight="5dp"
         android:background="@drawable/play_button"
         android:onClick="Play" />
