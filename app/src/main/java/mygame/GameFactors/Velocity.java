@@ -1,4 +1,4 @@
-package com.example.mygame;
+package mygame.GameFactors;
 
 public class Velocity {
     private  int x, y;

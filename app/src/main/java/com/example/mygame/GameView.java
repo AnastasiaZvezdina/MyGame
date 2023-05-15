@@ -16,7 +16,8 @@ import android.view.View;
 
 import java.util.Random;
 
-import java.util.logging.LogRecord;
+import mygame.GameFactors.Blocks;
+import mygame.GameFactors.Velocity;
 
 public class GameView extends View {
     Context context;
@@ -47,6 +48,7 @@ public class GameView extends View {
         ball = BitmapFactory.decodeResource(getResources(), R.drawable.ball);
         board = BitmapFactory.decodeResource(getResources(), R.drawable.board);
         handler = new Handler();
+
         runnable = new Runnable() {
             @Override
             public void run() {
@@ -58,7 +60,7 @@ public class GameView extends View {
         text_paint.setTextSize(100);
         text_paint.setTextAlign(Paint.Align.LEFT);
 
-        health_paint.setColor(Color.GREEN);
+        health_paint.setColor(Color.RED);
         blocks_paint.setColor(Color.YELLOW);
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
@@ -66,14 +68,16 @@ public class GameView extends View {
 
         dWidth = size.x;
         dHeight = size.y;
-        random = new Random();
-        ball_x = random.nextInt(dWidth - 50);
+
         ball_y = dHeight / 3;
-        board_y = (dHeight * 4) / 5;
+        board_y = dHeight * 4/ 5;
         board_x = dWidth / 2 - board.getWidth() / 2;
         ballWidth = ball.getWidth();
         ballHeight = ball.getHeight();
 
+
+        random = new Random();
+        ball_x = random.nextInt(dWidth - 50);
         createBlocks();
     }
 
@@ -131,11 +135,6 @@ public class GameView extends View {
                 }
             }
             canvas.drawText("" + points, 20, 120, text_paint);
-            if (life == 2) {
-                health_paint.setColor(Color.YELLOW);
-            } else if (life == 1) {
-                health_paint.setColor(Color.RED);
-            }
             canvas.drawRect(dWidth - 200, 30, dWidth - 200 + 60 * life, 80, health_paint);
             for (int i = 0; i < kolvo_of_blocks; i++) {
                 if (blocks[i].getVisiblity()) {
@@ -155,6 +154,7 @@ public class GameView extends View {
             }
             if(brocken_blocks == kolvo_of_blocks){
                 gameOver = true;
+                launchGameOver();
             }
             if(!gameOver){
                 handler.postDelayed(runnable, update_time);
