@@ -159,13 +159,14 @@ public class GameView extends View {
                             editor.putInt("NumWins", num_wins);
                             editor.apply();*/
 
-                            launchGameOver();
+
                         }
                     }
                 }
             }
             if(brocken_blocks == kolvo_of_blocks){
                 gameOver = true;
+                launchGameOver();
             }
             if(!gameOver){
                 handler.postDelayed(runnable, update_time);
