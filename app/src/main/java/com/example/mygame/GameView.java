@@ -89,9 +89,9 @@ public class GameView extends View {
     private void createBlocks() {
         int BlockWidth = dWidth / 8;
         int BlockHeight = dHeight / 16;
-        for (int column = 0; column < 8; column++) {
+        for (int line = 0; line < 8; line++) {
             for (int row = 0; row < 3; row++) {
-                blocks[kolvo_of_blocks] = new Blocks(row, column, BlockWidth, BlockHeight);
+                blocks[kolvo_of_blocks] = new Blocks(row, line, BlockWidth, BlockHeight);
                 kolvo_of_blocks++;
 
             }
@@ -133,9 +133,9 @@ public class GameView extends View {
             canvas.drawBitmap(board, board_x, board_y, null);
             for (int i = 0; i < kolvo_of_blocks; i++) {
                 if (blocks[i].getVisiblity()) {
-                    canvas.drawRect(blocks[i].column * blocks[i].wigth + 1,
+                    canvas.drawRect(blocks[i].line * blocks[i].wigth + 1,
                             blocks[i].row * blocks[i].height + 1,
-                            blocks[i].column * blocks[i].wigth + blocks[i].wigth - 1,
+                            blocks[i].line * blocks[i].wigth + blocks[i].wigth - 1,
                             blocks[i].row * blocks[i].height + blocks[i].height - 1, blocks_paint);
                 }
             }
@@ -144,8 +144,8 @@ public class GameView extends View {
 
             for (int i = 0; i < kolvo_of_blocks; i++) {
                 if (blocks[i].getVisiblity()) {
-                    if (ball_x + ballWidth >= blocks[i].column * blocks[i].wigth
-                            && ball_x <= blocks[i].column * blocks[i].wigth + blocks[i].wigth
+                    if (ball_x + ballWidth >= blocks[i].line * blocks[i].wigth
+                            && ball_x <= blocks[i].line * blocks[i].wigth + blocks[i].wigth
                             && ball_y <= blocks[i].row * blocks[i].height + blocks[i].height
                             && ball_y >= blocks[i].row * blocks[i].height) {
                         speed.setY((speed.getY() + 1) * -1);

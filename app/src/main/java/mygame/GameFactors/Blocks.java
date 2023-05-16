@@ -1,22 +1,22 @@
 package mygame.GameFactors;
 
 public class Blocks {
-    private boolean Visible;
-    public int row, column, height, wigth;
+    private boolean visible;
+    public int  height, wigth, row, line;
 
-    public Blocks(int row, int column, int height, int wigth) {
-        Visible = true;
+    public Blocks(int row, int line, int height, int wigth) {
+        visible = true;
         this.row = row;
-        this.column = column;
+        this.line = line;
         this.height = height;
         this.wigth = wigth;
     }
 
     public void setInvisible(){
-        Visible=false;
+        visible=false;
     }
 
     public boolean getVisiblity(){
-        return Visible;
+        return visible;
     }
 }
