@@ -24,8 +24,7 @@ import mygame.GameFactors.Speed;
 
 public class GameView extends View {
     Runnable runnable;
-    SharedPreferences sPref;
-
+    int num_wins = 0;
     Context context;
     float ball_x, ball_y;
     Speed speed = new Speed(30, 30);
@@ -154,6 +153,12 @@ public class GameView extends View {
                         points+=10;
                         brocken_blocks+=1;
                         if (brocken_blocks == kolvo_of_blocks){
+                            /*num_wins+=1;
+                            SharedPreferences wins = context.getSharedPreferences("Wins", MODE_PRIVATE);
+                            SharedPreferences.Editor editor = wins.edit();
+                            editor.putInt("NumWins", num_wins);
+                            editor.apply();*/
+
                             launchGameOver();
                         }
                     }
@@ -217,6 +222,7 @@ public class GameView extends View {
 
     }*/
 
-
-
+    /*public GameView(Context context) {
+        sPref = context.getApplicationContext().getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    }*/
 }
