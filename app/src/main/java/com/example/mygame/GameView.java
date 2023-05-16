@@ -1,8 +1,11 @@
 package com.example.mygame;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -17,15 +20,18 @@ import android.view.View;
 import java.util.Random;
 
 import mygame.GameFactors.Blocks;
-import mygame.GameFactors.Velocity;
+import mygame.GameFactors.Speed;
 
 public class GameView extends View {
+    Runnable runnable;
+    SharedPreferences sPref;
+
     Context context;
     float ball_x, ball_y;
-    Velocity velocity = new Velocity(30, 30);
+    Speed speed = new Speed(30, 30);
     Handler handler;
     final long update_time = 30;
-    Runnable runnable;
+
     Paint text_paint = new Paint();
     Paint health_paint = new Paint();
     Paint blocks_paint = new Paint();
@@ -37,7 +43,7 @@ public class GameView extends View {
     int dWidth, dHeight;
     int ballWidth, ballHeight;
     Random random;
-    Blocks[] blocks = new Blocks[36];
+    Blocks[] blocks = new Blocks[24];
     int kolvo_of_blocks = 0;
     int brocken_blocks = 0;
     boolean gameOver = false;
@@ -49,23 +55,23 @@ public class GameView extends View {
         board = BitmapFactory.decodeResource(getResources(), R.drawable.board);
         handler = new Handler();
 
+        health_paint.setColor(Color.RED);
+        blocks_paint.setColor(Color.YELLOW);
         runnable = new Runnable() {
             @Override
             public void run() {
                 invalidate();
             }
         };
-
-        text_paint.setColor(Color.BLUE);
         text_paint.setTextSize(100);
         text_paint.setTextAlign(Paint.Align.LEFT);
+        text_paint.setColor(Color.BLUE);
 
-        health_paint.setColor(Color.RED);
-        blocks_paint.setColor(Color.YELLOW);
+
+
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-
         dWidth = size.x;
         dHeight = size.y;
 
@@ -99,19 +105,19 @@ public class GameView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawColor(Color.BLACK);
-        ball_x += velocity.getX();
-        ball_y += velocity.getY();
+        ball_x += speed.getX();
+        ball_y += speed.getY();
         if ((ball_x >= dWidth - ball.getWidth()) || ball_x <= 0) {
-            velocity.setX(velocity.getX() * -1);
+            speed.setX(speed.getX() * -1);
         }
         if (ball_y <= 0) {
-            velocity.setY(velocity.getY() * -1);
+            speed.setY(speed.getY() * -1);
         }
         if (ball_y > board_y + board.getHeight()) {
             ball_x = 1 + random.nextInt(dWidth - ball.getWidth() - 1);
             ball_y = dHeight / 3;
-            velocity.setX(xVelocity());
-            velocity.setY(32);
+            speed.setX(xVelocity());
+            speed.setY(32);
             life--;
             if (life == 0) {
                 gameOver = true;
@@ -121,8 +127,8 @@ public class GameView extends View {
             if (((ball_x + ball.getWidth()) >= board_x)
                     && (ball_x <= board_x + board.getWidth())
                     && (ball_y + ball.getHeight() >= board_y) && (ball_y + ball.getHeight() <= board_y + board.getHeight())) {
-                velocity.setX(velocity.getX() + 1);
-                velocity.setY((velocity.getY() + 1) * -1);
+                speed.setX(speed.getX() + 1);
+                speed.setY((speed.getY() + 1) * -1);
             }
             canvas.drawBitmap(ball, ball_x, ball_y, null);
             canvas.drawBitmap(board, board_x, board_y, null);
@@ -136,17 +142,18 @@ public class GameView extends View {
             }
             canvas.drawText("" + points, 20, 120, text_paint);
             canvas.drawRect(dWidth - 200, 30, dWidth - 200 + 60 * life, 80, health_paint);
+
             for (int i = 0; i < kolvo_of_blocks; i++) {
                 if (blocks[i].getVisiblity()) {
                     if (ball_x + ballWidth >= blocks[i].column * blocks[i].wigth
                             && ball_x <= blocks[i].column * blocks[i].wigth + blocks[i].wigth
                             && ball_y <= blocks[i].row * blocks[i].height + blocks[i].height
                             && ball_y >= blocks[i].row * blocks[i].height) {
-                        velocity.setY((velocity.getY() + 1) * -1);
+                        speed.setY((speed.getY() + 1) * -1);
                         blocks[i].setInvisible();
                         points+=10;
                         brocken_blocks+=1;
-                        if (brocken_blocks == 30){
+                        if (brocken_blocks == kolvo_of_blocks){
                             launchGameOver();
                         }
                     }
@@ -154,7 +161,6 @@ public class GameView extends View {
             }
             if(brocken_blocks == kolvo_of_blocks){
                 gameOver = true;
-                launchGameOver();
             }
             if(!gameOver){
                 handler.postDelayed(runnable, update_time);
@@ -202,4 +208,15 @@ public class GameView extends View {
         int index = random.nextInt(6);
         return values[index];
     }
+
+    /*private void saveResult(){
+        sPref = context.getSharedPreferences("com.example.app", Context.MODE_PRIVATE);
+        SharedPreferences.Editor ed = sPref.edit();
+        ed.putString(SAVED_TEXT)
+
+
+    }*/
+
+
+
 }

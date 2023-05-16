@@ -1,9 +1,9 @@
 package mygame.GameFactors;
 
-public class Velocity {
-    private  int x, y;
+public class Speed {
+    private int x, y;
 
-    public Velocity(int x, int y) {
+    public Speed(int x, int y) {
         this.x = x;
         this.y = y;
     }

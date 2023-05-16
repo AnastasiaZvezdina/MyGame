@@ -10,21 +10,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class GameOver extends AppCompatActivity {
-    TextView tvPoints;
-    ImageView ivNewHighest;
-
-
+    TextView Game_points;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.game_over);
-        ivNewHighest = findViewById(R.id.ivNewHeighest);
-        tvPoints = findViewById(R.id.tvPoints);
+
+        Game_points = findViewById(R.id.tvPoints);
         int points = getIntent().getExtras().getInt("points");
-        if(points == 300){
-            ivNewHighest.setVisibility(View.VISIBLE);
-        }
-        tvPoints.setText(""+points);
+        Game_points.setText(""+points);
     }
 
     public void reset(View view){
