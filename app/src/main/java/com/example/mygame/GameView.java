@@ -34,11 +34,14 @@ public class GameView extends View {
     Paint text_paint = new Paint();
     Paint health_paint = new Paint();
     Paint blocks_paint = new Paint();
-    float board_x, board_y;
-    float old_x, old_board_x;
+    float board_x;
+    float board_y;
+    float old_x;
+    float old_board_x;
     int points = 0;
     int life = 3;
-    Bitmap ball, board;
+    Bitmap ball;
+    Bitmap board;
     int dWidth, dHeight;
     int ballWidth, ballHeight;
     Random random;
@@ -96,8 +99,6 @@ public class GameView extends View {
 
             }
         }
-
-
     }
 
     @Override
@@ -115,7 +116,7 @@ public class GameView extends View {
         if (ball_y > board_y + board.getHeight()) {
             ball_x = 1 + random.nextInt(dWidth - ball.getWidth() - 1);
             ball_y = dHeight / 3;
-            speed.setX(xVelocity());
+            speed.setX(xSpeed());
             speed.setY(32);
             life--;
             if (life == 0) {
@@ -123,55 +124,54 @@ public class GameView extends View {
                 launchGameOver();
             }
         }
-            if (((ball_x + ball.getWidth()) >= board_x)
-                    && (ball_x <= board_x + board.getWidth())
-                    && (ball_y + ball.getHeight() >= board_y) && (ball_y + ball.getHeight() <= board_y + board.getHeight())) {
-                speed.setX(speed.getX() + 1);
-                speed.setY((speed.getY() + 1) * -1);
+        if (((ball_x + ball.getWidth()) >= board_x) && (ball_y + ball.getHeight() <= board_y + board.getHeight())&& (ball_x <= board_x + board.getWidth())
+                && (ball_y + ball.getHeight() >= board_y)) {
+            speed.setX(speed.getX() + 1);
+            speed.setY((speed.getY() + 1) * -1);
+        }
+        canvas.drawBitmap(ball, ball_x, ball_y, null);
+        canvas.drawBitmap(board, board_x, board_y, null);
+        for (int i = 0; i < kolvo_of_blocks; i++) {
+            if (blocks[i].getVisiblity()) {
+                canvas.drawRect(blocks[i].line * blocks[i].wigth + 1,
+                        blocks[i].row * blocks[i].height + 1,
+                        blocks[i].line * blocks[i].wigth + blocks[i].wigth - 1,
+                        blocks[i].row * blocks[i].height + blocks[i].height - 1, blocks_paint);
             }
-            canvas.drawBitmap(ball, ball_x, ball_y, null);
-            canvas.drawBitmap(board, board_x, board_y, null);
-            for (int i = 0; i < kolvo_of_blocks; i++) {
-                if (blocks[i].getVisiblity()) {
-                    canvas.drawRect(blocks[i].line * blocks[i].wigth + 1,
-                            blocks[i].row * blocks[i].height + 1,
-                            blocks[i].line * blocks[i].wigth + blocks[i].wigth - 1,
-                            blocks[i].row * blocks[i].height + blocks[i].height - 1, blocks_paint);
-                }
-            }
-            canvas.drawText("" + points, 20, 120, text_paint);
-            canvas.drawRect(dWidth - 200, 30, dWidth - 200 + 60 * life, 80, health_paint);
+        }
+        canvas.drawText("" + points, 20, 120, text_paint);
+        canvas.drawRect(dWidth - 200, 30, dWidth - 200 + 60 * life, 80, health_paint);
 
-            for (int i = 0; i < kolvo_of_blocks; i++) {
-                if (blocks[i].getVisiblity()) {
-                    if (ball_x + ballWidth >= blocks[i].line * blocks[i].wigth
-                            && ball_x <= blocks[i].line * blocks[i].wigth + blocks[i].wigth
-                            && ball_y <= blocks[i].row * blocks[i].height + blocks[i].height
-                            && ball_y >= blocks[i].row * blocks[i].height) {
-                        speed.setY((speed.getY() + 1) * -1);
-                        blocks[i].setInvisible();
-                        points+=10;
-                        brocken_blocks+=1;
-                        if (brocken_blocks == kolvo_of_blocks){
+        for (int i = 0; i < kolvo_of_blocks; i++) {
+            if (blocks[i].getVisiblity()) {
+                if (ball_x + ballWidth >= blocks[i].line * blocks[i].wigth
+                        && ball_x <= blocks[i].line * blocks[i].wigth + blocks[i].wigth
+                        && ball_y <= blocks[i].row * blocks[i].height + blocks[i].height
+                        && ball_y >= blocks[i].row * blocks[i].height) {
+                    speed.setY(speed.getY() * -1);
+                    blocks[i].setInvisible();
+                    points+=10;
+                    brocken_blocks+=1;
+                    if (brocken_blocks == kolvo_of_blocks){
                             /*num_wins+=1;
                             SharedPreferences wins = context.getSharedPreferences("Wins", MODE_PRIVATE);
                             SharedPreferences.Editor editor = wins.edit();
                             editor.putInt("NumWins", num_wins);
                             editor.apply();*/
+                        launchGameOver();
 
-
-                        }
                     }
                 }
             }
-            if(brocken_blocks == kolvo_of_blocks){
-                gameOver = true;
-                launchGameOver();
-            }
-            if(!gameOver){
-                handler.postDelayed(runnable, update_time);
-            }
         }
+        if(brocken_blocks == kolvo_of_blocks){
+            gameOver = true;
+
+        }
+        if(!gameOver){
+            handler.postDelayed(runnable, update_time);
+        }
+    }
 
 
     @Override
@@ -209,10 +209,9 @@ public class GameView extends View {
 
     }
 
-    private int xVelocity() {
-        int[] values = {-35, -30, -25, 25, 30, 35};
-        int index = random.nextInt(6);
-        return values[index];
+    private int xSpeed() {
+        int[] values = {-30, -25, 25, 30};
+        return values[random.nextInt(4)];
     }
 
     /*private void saveResult(){

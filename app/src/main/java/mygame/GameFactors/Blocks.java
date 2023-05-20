@@ -15,7 +15,6 @@ public class Blocks {
     public void setInvisible(){
         visible=false;
     }
-
     public boolean getVisiblity(){
         return visible;
     }
