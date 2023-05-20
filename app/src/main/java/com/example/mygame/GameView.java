@@ -127,7 +127,7 @@ public class GameView extends View {
         if (((ball_x + ball.getWidth()) >= board_x) && (ball_y + ball.getHeight() <= board_y + board.getHeight())&& (ball_x <= board_x + board.getWidth())
                 && (ball_y + ball.getHeight() >= board_y)) {
             speed.setX(speed.getX() + 1);
-            speed.setY((speed.getY() + 1) * -1);
+            speed.setY(speed.getY()  * -1);
         }
         canvas.drawBitmap(ball, ball_x, ball_y, null);
         canvas.drawBitmap(board, board_x, board_y, null);
