@@ -34,18 +34,18 @@ public class GameView extends View {
     Paint text_paint = new Paint();
     Paint health_paint = new Paint();
     Paint blocks_paint = new Paint();
-    float board_x;
-    float board_y;
-    float old_x;
-    float old_board_x;
     int points = 0;
     int life = 3;
     Bitmap ball;
     Bitmap board;
+    float board_x;
+    float board_y;
+    float old_x;
+    float old_board_x;
     int dWidth, dHeight;
     int ballWidth, ballHeight;
     Random random;
-    Blocks[] blocks = new Blocks[24];
+    Blocks[] blocks = new Blocks[32];
     int kolvo_of_blocks = 0;
     int brocken_blocks = 0;
     boolean gameOver = false;
@@ -93,7 +93,7 @@ public class GameView extends View {
         int BlockWidth = dWidth / 8;
         int BlockHeight = dHeight / 16;
         for (int line = 0; line < 8; line++) {
-            for (int row = 0; row < 3; row++) {
+            for (int row = 0; row < 4; row++) {
                 blocks[kolvo_of_blocks] = new Blocks(row, line, BlockWidth, BlockHeight);
                 kolvo_of_blocks++;
 
