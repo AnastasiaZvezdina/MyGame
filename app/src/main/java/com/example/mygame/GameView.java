@@ -27,14 +27,16 @@ public class GameView extends View {
     int num_wins = 0;
     Context context;
     float ball_x, ball_y;
-    Speed speed = new Speed(30, 30);
+    Speed speed = new Speed(35, 35);
+
     Handler handler;
+
     final long update_time = 30;
 
     Paint text_paint = new Paint();
-    Paint health_paint = new Paint();
     Paint blocks_paint = new Paint();
     int points = 0;
+    Paint health_paint = new Paint();
     int life = 3;
     Bitmap ball;
     Bitmap board;
@@ -42,8 +44,10 @@ public class GameView extends View {
     float board_y;
     float old_x;
     float old_board_x;
-    int dWidth, dHeight;
-    int ballWidth, ballHeight;
+    int dWidth;
+    int dHeight;
+    int ballWidth;
+    int ballHeight;
     Random random;
     Blocks[] blocks = new Blocks[32];
     int kolvo_of_blocks = 0;
@@ -146,8 +150,8 @@ public class GameView extends View {
             if (blocks[i].getVisiblity()) {
                 if (ball_x + ballWidth >= blocks[i].line * blocks[i].wigth
                         && ball_x <= blocks[i].line * blocks[i].wigth + blocks[i].wigth
-                        && ball_y <= blocks[i].row * blocks[i].height + blocks[i].height
-                        && ball_y >= blocks[i].row * blocks[i].height) {
+                        && ball_y >= blocks[i].row * blocks[i].height
+                        && ball_y <= blocks[i].row * blocks[i].height + blocks[i].height) {
                     speed.setY(speed.getY() * -1);
                     blocks[i].setInvisible();
                     points+=10;
@@ -166,7 +170,6 @@ public class GameView extends View {
         }
         if(brocken_blocks == kolvo_of_blocks){
             gameOver = true;
-
         }
         if(!gameOver){
             handler.postDelayed(runnable, update_time);
@@ -199,7 +202,10 @@ public class GameView extends View {
         return true;
 
     }
-
+    private int xSpeed() {
+        int[] values = {-30, -25, 25, 30};
+        return values[random.nextInt(4)];
+    }
     private void launchGameOver() {
         handler.removeCallbacksAndMessages(null);
         Intent intent = new Intent(context, GameOver.class);
@@ -209,10 +215,7 @@ public class GameView extends View {
 
     }
 
-    private int xSpeed() {
-        int[] values = {-30, -25, 25, 30};
-        return values[random.nextInt(4)];
-    }
+
 
     /*private void saveResult(){
         sPref = context.getSharedPreferences("com.example.app", Context.MODE_PRIVATE);
