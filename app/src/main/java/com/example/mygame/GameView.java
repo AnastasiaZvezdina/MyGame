@@ -44,8 +44,8 @@ public class GameView extends View {
     float board_y;
     float old_x;
     float old_board_x;
-    int dWidth;
-    int dHeight;
+    int Width;
+    int Height;
     int ballWidth;
     int ballHeight;
     Random random;
@@ -78,24 +78,24 @@ public class GameView extends View {
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        dWidth = size.x;
-        dHeight = size.y;
+        Width = size.x;
+        Height = size.y;
 
-        ball_y = dHeight / 3;
-        board_y = dHeight * 4/ 5;
-        board_x = dWidth / 2 - board.getWidth() / 2;
+        ball_y = Height / 3;
+        board_y = Height * 4/ 5;
+        board_x = Width / 2 - board.getWidth() / 2;
         ballWidth = ball.getWidth();
         ballHeight = ball.getHeight();
 
 
         random = new Random();
-        ball_x = random.nextInt(dWidth - 50);
+        ball_x = random.nextInt(Width - 50);
         createBlocks();
     }
 
     private void createBlocks() {
-        int BlockWidth = dWidth / 8;
-        int BlockHeight = dHeight / 16;
+        int BlockWidth = Width / 8;
+        int BlockHeight = Height / 16;
         for (int line = 0; line < 8; line++) {
             for (int row = 0; row < 4; row++) {
                 blocks[kolvo_of_blocks] = new Blocks(row, line, BlockWidth, BlockHeight);
@@ -111,15 +111,15 @@ public class GameView extends View {
         canvas.drawColor(Color.BLACK);
         ball_x += speed.getX();
         ball_y += speed.getY();
-        if ((ball_x >= dWidth - ball.getWidth()) || ball_x <= 0) {
+        if ((ball_x >= Width - ball.getWidth()) || ball_x <= 0) {
             speed.setX(speed.getX() * -1);
         }
         if (ball_y <= 0) {
             speed.setY(speed.getY() * -1);
         }
         if (ball_y > board_y + board.getHeight()) {
-            ball_x = 1 + random.nextInt(dWidth - ball.getWidth() - 1);
-            ball_y = dHeight / 3;
+            ball_x = 1 + random.nextInt(Width - ball.getWidth() - 1);
+            ball_y = Height / 3;
             speed.setX(xSpeed());
             speed.setY(32);
             life--;
@@ -144,7 +144,7 @@ public class GameView extends View {
             }
         }
         canvas.drawText("" + points, 20, 120, text_paint);
-        canvas.drawRect(dWidth - 200, 30, dWidth - 200 + 60 * life, 80, health_paint);
+        canvas.drawRect(Width - 200, 30, Width - 200 + 60 * life, 80, health_paint);
 
         for (int i = 0; i < kolvo_of_blocks; i++) {
             if (blocks[i].getVisiblity()) {
@@ -192,8 +192,8 @@ public class GameView extends View {
                 float new_board_x = old_board_x - shift;
                 if(new_board_x <= 0){
                     board_x = 0;
-                }else if (new_board_x >= dWidth - board.getWidth()){
-                    board_x = dWidth - board.getWidth();
+                }else if (new_board_x >= Width - board.getWidth()){
+                    board_x = Width - board.getWidth();
                 }else{
                     board_x = new_board_x;
                 }
