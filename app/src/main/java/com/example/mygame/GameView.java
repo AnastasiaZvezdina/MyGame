@@ -74,7 +74,6 @@ public class GameView extends View {
         text_paint.setColor(Color.BLUE);
 
 
-
         Display display = ((Activity) getContext()).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
@@ -82,7 +81,7 @@ public class GameView extends View {
         Height = size.y;
 
         ball_y = Height / 3;
-        board_y = Height * 4/ 5;
+        board_y = Height * 4 / 5;
         board_x = Width / 2 - board.getWidth() / 2;
         ballWidth = ball.getWidth();
         ballHeight = ball.getHeight();
@@ -128,10 +127,10 @@ public class GameView extends View {
                 launchGameOver();
             }
         }
-        if (((ball_x + ball.getWidth()) >= board_x) && (ball_y + ball.getHeight() <= board_y + board.getHeight())&& (ball_x <= board_x + board.getWidth())
+        if (((ball_x + ball.getWidth()) >= board_x) && (ball_y + ball.getHeight() <= board_y + board.getHeight()) && (ball_x <= board_x + board.getWidth())
                 && (ball_y + ball.getHeight() >= board_y)) {
             speed.setX(speed.getX() + 1);
-            speed.setY(speed.getY()  * -1);
+            speed.setY(speed.getY() * -1);
         }
         canvas.drawBitmap(ball, ball_x, ball_y, null);
         canvas.drawBitmap(board, board_x, board_y, null);
@@ -149,14 +148,14 @@ public class GameView extends View {
         for (int i = 0; i < kolvo_of_blocks; i++) {
             if (blocks[i].getVisiblity()) {
                 if (ball_x + ballWidth >= blocks[i].line * blocks[i].wigth
+                        && ball_y <= blocks[i].row * blocks[i].height + blocks[i].height
                         && ball_x <= blocks[i].line * blocks[i].wigth + blocks[i].wigth
-                        && ball_y >= blocks[i].row * blocks[i].height
-                        && ball_y <= blocks[i].row * blocks[i].height + blocks[i].height) {
+                        && ball_y >= blocks[i].row * blocks[i].height) {
                     speed.setY(speed.getY() * -1);
                     blocks[i].setInvisible();
-                    points+=10;
-                    brocken_blocks+=1;
-                    if (brocken_blocks == kolvo_of_blocks){
+                    points += 10;
+                    brocken_blocks += 1;
+                    if (brocken_blocks == kolvo_of_blocks) {
                             /*num_wins+=1;
                             SharedPreferences wins = context.getSharedPreferences("Wins", MODE_PRIVATE);
                             SharedPreferences.Editor editor = wins.edit();
@@ -168,10 +167,10 @@ public class GameView extends View {
                 }
             }
         }
-        if(brocken_blocks == kolvo_of_blocks){
+        if (brocken_blocks == kolvo_of_blocks) {
             gameOver = true;
         }
-        if(!gameOver){
+        if (!gameOver) {
             handler.postDelayed(runnable, update_time);
         }
     }
@@ -179,22 +178,22 @@ public class GameView extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float touch_x = event.getX();
         float touch_y = event.getY();
-        if(touch_y >= board_y){
+        float touch_x = event.getX();
+        if (touch_y >= board_y) {
             int action = event.getAction();
-            if(action == MotionEvent.ACTION_DOWN){
+            if (action == MotionEvent.ACTION_DOWN) {
                 old_x = event.getX();
                 old_board_x = board_x;
             }
-            if(action == MotionEvent.ACTION_MOVE){
+            if (action == MotionEvent.ACTION_MOVE) {
                 float shift = old_x - touch_x;
                 float new_board_x = old_board_x - shift;
-                if(new_board_x <= 0){
+                if (new_board_x <= 0) {
                     board_x = 0;
-                }else if (new_board_x >= Width - board.getWidth()){
+                } else if (new_board_x >= Width - board.getWidth()) {
                     board_x = Width - board.getWidth();
-                }else{
+                } else {
                     board_x = new_board_x;
                 }
             }
@@ -202,10 +201,12 @@ public class GameView extends View {
         return true;
 
     }
+
     private int xSpeed() {
         int[] values = {-30, -25, 25, 30};
         return values[random.nextInt(4)];
     }
+
     private void launchGameOver() {
         handler.removeCallbacksAndMessages(null);
         Intent intent = new Intent(context, GameOver.class);

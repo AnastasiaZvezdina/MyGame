@@ -3,25 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#A3E3A6"
     android:gravity="center"
-    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <ImageButton
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:background="@drawable/play_button"
-            android:layout_marginRight="1dp"
-            android:onClick="Play" />
-
-
-    </LinearLayout>
+    <ImageButton
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginRight="1dp"
+        android:background="@drawable/play_button"
+        android:onClick="Play" />
 
 </LinearLayout>

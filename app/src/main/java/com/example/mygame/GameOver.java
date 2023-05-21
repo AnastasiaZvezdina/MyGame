@@ -1,11 +1,11 @@
 package com.example.mygame;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -48,5 +48,12 @@ public class GameOver extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+   /* private void launchGameOver() {
+        handler.removeCallbacksAndMessages(null);
+        Intent intent = new Intent(context, GameOver.class);
+        intent.putExtra("points", points);
+        context.startActivity(intent);
+        ((Activity) context).finish();
 
+    }*/
 }
